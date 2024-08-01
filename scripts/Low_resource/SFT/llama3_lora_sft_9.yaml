@@ -1,0 +1,41 @@
+### model:
+model_name_or_path: ../Meta-Llama-3-8B-Instruct
+
+### method
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_target: all
+
+### ddp
+ddp_timeout: 180000000
+
+### dataset
+dataset: ASTE_L14_train_Group_7_Cot_0.1, ASTE_L14_dev_Group_7_Cot_0.1
+template: llama3
+cutoff_len: 1024
+max_samples: 1000000
+overwrite_cache: true
+preprocessing_num_workers: 16
+
+### output
+output_dir: ./saves/llama3-8b-ASTE_L14_Group_7_Cot_0.1/lora/sft
+logging_steps: 10
+save_steps: 100
+plot_loss: true
+overwrite_output_dir: true
+
+# train
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 1
+learning_rate: 0.0001
+num_train_epochs: 5
+lr_scheduler_type: cosine
+warmup_steps: 0.1
+fp16: true
+
+### eval
+val_size: 0.1
+per_device_eval_batch_size: 8
+evaluation_strategy: steps
+eval_steps: 100
